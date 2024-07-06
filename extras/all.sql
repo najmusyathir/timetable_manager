@@ -182,7 +182,7 @@ VALUES
     (7, 'Saturday');
 
 INSERT INTO
-    `timeslot` (`id`, `time`)
+    `timeslots` (`id`, `time`)
 VALUES
     (1, "07:50"),
     (2, "08:30"),
@@ -208,8 +208,8 @@ INSERT INTO
         `course_id`,
         `location_id`,
         `day_id`,
-        `start`,
-        `end`
+        `start_id`,
+        `end_id`
     )
 VALUES
     (10, 20, 5, 9, 27, 2, NULL, NULL),

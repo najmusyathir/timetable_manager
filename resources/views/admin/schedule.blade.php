@@ -48,7 +48,7 @@
                         </div>
                         <tr>
                             <td>No.</td>
-                            <td>Course</td>
+                            <td>Class</td>
                             <td>Subject</td>
                             <td>Location</td>
                             <td>Instructor</td>

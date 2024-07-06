@@ -10,8 +10,12 @@ use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::get('/dashboard', function () {
@@ -27,14 +31,19 @@ Route::middleware('auth')->group(function () {
 
 // Users related routes
 {
-    Route::get('/user', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('user.index');
-    Route::get('/user/teachers', [UserController::class, 'listTeachers'])->middleware(['auth', 'verified'])->name('user.teacher');
-    Route::get('/user/students', [UserController::class, 'listStudents'])->middleware(['auth', 'verified'])->name('user.student');
+    Route::get('/user', [UserController::class, 'index'])->middleware(['auth', 'verified'])->name('admin.index');
+    Route::get('/user/teachers', [UserController::class, 'listTeachers'])->middleware(['auth', 'verified'])->name('admin.teacher');
+    Route::get('/user/students', [UserController::class, 'listStudents'])->middleware(['auth', 'verified'])->name('admin.student');
 
+    
+    Route::get('/user/add', [UserController::class, 'userAddPage'])->middleware(['auth', 'verified'])->name('admin.userAddPage');
+    Route::post('/user/added', [UserController::class, 'userAdd'])->middleware(['auth', 'verified'])->name('user.add');
+    Route::get('/user/admin/{id}', [UserController::class, 'adminDetail'])->middleware(['auth', 'verified'])->name('admin.userDetails');
 
-    Route::get('/user/{id}', [UserController::class, 'userDetail'])->middleware(['auth', 'verified'])->name('user.details');
-    Route::put('/user/{id}/update', [UserController::class, 'userUpdate'])->middleware(['auth', 'verified'])->name('user.update');
-    Route::delete('/user/{id}/delete', [UserController::class, 'userDelete'])->middleware(['auth', 'verified'])->name('user.delete');
+    Route::get('/user/{id}', [UserController::class, 'userDetail'])->middleware(['auth', 'verified'])->name('user.userDetails');
+
+    Route::put('/user/{id}/update', [UserController::class, 'userUpdate'])->middleware(['auth', 'verified'])->name('admin.update');
+    Route::delete('/user/{id}/delete', [UserController::class, 'userDelete'])->middleware(['auth', 'verified'])->name('admin.delete');
 }
 
 // Subjects related routes
@@ -75,18 +84,18 @@ Route::middleware('auth')->group(function () {
 
 // Schedule related routes
 {
-    Route::get('/schedule', [ScheduleController::class, 'index'])->middleware(['auth', 'verified'])->name('schedule.index');
-    Route::get('/schedule/course/{id}', [ScheduleController::class, 'tableCourse'])->middleware(['auth', 'verified'])->name('schedule.tableCourse');
+    Route::get('/schedule/course/{c_id}', [ScheduleController::class, 'tableCourse'])->middleware(['auth', 'verified'])->name('schedule.tableCourse');
     Route::get('/schedule/teacher/{id}', [ScheduleController::class, 'tableTeacher'])->middleware(['auth', 'verified'])->name('schedule.tableTeacher');
+    Route::get('/schedule/course/{c_id}/add', [ScheduleController::class, 'scheduleAddPage'])->middleware(['auth', 'verified'])->name('schedule.addPage');
 
-    Route::get('/schedule/add', [ScheduleController::class, 'scheduleAddPage'])->middleware(['auth', 'verified'])->name('schedule.addPage');
     Route::post('/schedule/added', [ScheduleController::class, 'scheduleAdd'])->middleware(['auth', 'verified'])->name('schedule.add');
     Route::get('/schedule/{id}/update', [ScheduleController::class, 'scheduleUpdatePage'])->middleware(['auth', 'verified'])->name('schedule.updatePage');
     Route::put('/schedule/{id}/updated', [ScheduleController::class, 'scheduleUpdate'])->middleware(['auth', 'verified'])->name('schedule.update');
 
-    Route::delete('/schedule/{id}/delete', [ScheduleController::class, 'scheduleDelete'])->middleware(['auth', 'verified'])->name('schedule.delete');
-    Route::delete('/schedule/{s_id}/course/{id}', [ScheduleController::class, 'scheduleDeletefromCourse'])->middleware(['auth', 'verified'])->name('schedule.deleteToCourse');
+    Route::delete('/schedule/delete/{s_id}', [ScheduleController::class, 'scheduleDeletefromCourse'])->middleware(['auth', 'verified'])->name('schedule.delete');
 
+    //Student
+    Route::get('/timetable/search',  [ScheduleController::class, 'studentTable'])->middleware(['auth', 'verified'])->name('student.table');
 }
 
 // API

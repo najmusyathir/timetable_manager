@@ -41,12 +41,40 @@ class UserController extends Controller
 
     }
 
-    public function userDetail($id)
+    public function adminDetail($id)
     {
         $user = User::findOrFail($id);
         $courses = Course::all();
         $batches = Batch::all();
         return view('admin.userDetails', compact("user", "courses", "batches"));
+    }
+
+    public function userAddPage()
+    {
+        $courses = Course::all();
+        $batches = Batch::all();
+        return view('admin.userAdd', compact("courses", "batches"));
+    }
+
+    public function userAdd(Request $request)
+    {
+        $user = new User();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->password = $request->input('password');
+        $user->user_type = $request->input('user_type');
+        $user->phone_no = $request->input('phone_no');
+        $user->batch_id = $request->input('batch_id');
+        $user->matric_no = $request->input('matric_no');
+        $user->course_id = $request->input('course_id');
+        $user->save();
+
+        $courses = Course::all();
+        $batches = Batch::all();
+        $users = User::all();
+
+
+        return redirect()->route('admin.index');
     }
 
 
@@ -65,6 +93,10 @@ class UserController extends Controller
         $user->batch_id = $request->input('batch_id');
         $user->matric_no = $request->input('matric_no');
         $user->course_id = $request->input('course_id');
+
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->input('password'));
+        }
         $user->save();
 
         $courses = Course::all();
@@ -72,7 +104,7 @@ class UserController extends Controller
         $users = User::all();
 
 
-        return redirect()->route('user.details', ['id' => $user, 'users' => $users, 'courses' => $courses, 'batches' => $batches]);
+        return redirect()->route('admin.userDetails', ['id' => $user, 'users' => $users, 'courses' => $courses, 'batches' => $batches]);
     }
 
     public function userDelete($id)
@@ -83,5 +115,16 @@ class UserController extends Controller
         $users = User::all();
         return view('admin.user', compact('users'));
 
+    }
+
+
+    //User Hadnling
+
+    public function userDetail($id)
+    {
+        $user = User::findOrFail($id);
+        $courses = Course::all();
+        $batches = Batch::all();
+        return view('user.userDetails', compact("user", "courses", "batches"));
     }
 }

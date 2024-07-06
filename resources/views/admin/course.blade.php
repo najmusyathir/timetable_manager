@@ -31,7 +31,7 @@
 
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            List of Courses
+            List of Classes
         </h2>
     </x-slot>
 
@@ -83,7 +83,7 @@
                                     </form>
                                 </td>
                                 <td>
-                                    <a class="btn text-nowrap h-full text-lg" href="{{route('schedule.tableCourse', ['id'=>$course->id])}}">Scheduled Class</a>
+                                    <a class="btn text-nowrap h-full text-lg" href="{{route('schedule.tableCourse', ['c_id'=>$course->id])}}">Timetable</a>
                                 </td>
 
                                 <td>
