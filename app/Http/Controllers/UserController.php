@@ -83,7 +83,7 @@ class UserController extends Controller
 
         if (!User::findOrFail($id)) {
             return view("dashboard");
-        }
+        } 
 
         $user = User::findOrFail($id);
         $user->name = $request->input('name');
